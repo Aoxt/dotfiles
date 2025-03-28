@@ -4,10 +4,11 @@ local wezterm = require 'wezterm'
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
--- This is where you actually apply your config choices
+-- Configurando el esquema de color
+config.color_scheme = 'Kasugano'
 
--- For example, changing the color scheme:
-config.color_scheme = 'Kasugano' 
+-- Configurando el shell predeterminado a bash
+config.default_prog = { '/bin/bash', '-l' }
 
--- and finally, return the configuration to wezterm
+-- y finalmente, retorna la configuración a wezterm
 return config

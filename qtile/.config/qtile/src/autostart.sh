@@ -28,8 +28,7 @@ sleep 1
 
 echo "[Autostart] Aplicando configuración de xrandr..." >> ~/.config/qtile/autostart.log # Log (opcional)
 # Configura DP-0 (144Hz, izquierda) y DP-2 (Primario, 239.76Hz, derecha)
-xrandr --output DP-0 --mode 1920x1080 --rate 144.00 --pos 0x0 --output DP-2 --primary --mode 1920x1080 --rate 239.76 --pos 1920x0 &
-
+xrandr --output DP-2 --mode 1920x1080 --rate 144.00 --pos 0x0 --output DP-4 --primary --mode 1920x1080 --rate 239.76 --pos 1920x0 &
 echo "[Autostart] Aplicando configuración de xrandr..." >> ~/.config/qtile/autostart.log # Log (opcional)
 # PEGA TU COMANDO XRANDR COMPLETO Y CORRECTO AQUÍ, TERMINANDO CON '&':
 # Ejemplo:
