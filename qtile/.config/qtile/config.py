@@ -39,24 +39,24 @@ def autostart():
 # Ejemplo: Paleta Nord (Puedes buscar otras o crear la tuya)
 # =========================================================================== #
 colors = {
-    "bg":      "#2E3440", # Nord0  (Fondo principal)
-    "fg":      "#D8DEE9", # Nord4  (Texto principal)
-    "gray":    "#4C566A", # Nord3  (Gris oscuro, comentarios, inactivos)
-    "white":   "#ECEFF4", # Nord6  (Blanco brillante)
-    "red":     "#BF616A", # Nord11 (Rojo, errores, urgente)
-    "orange":  "#D08770", # Nord12 (Naranja)
-    "yellow":  "#EBCB8B", # Nord13 (Amarillo, advertencias)
-    "green":   "#A3BE8C", # Nord14 (Verde, éxito)
-    "magenta": "#B48EAD", # Nord15 (Magenta)
-    "blue":    "#5E81AC", # Nord10 (Azul, selección, info)
-    "cyan":    "#88C0D0", # Nord8  (Cyan, strings, nombres de ventana)
+    "bg":      "#302D41", # Catppuccin Mocha - Base
+    "fg":      "#D9E0EE", # Catppuccin Mocha - Text
+    "gray":    "#6E6C7E", # Catppuccin Mocha - Subtext0
+    "white":   "#D9E0EE", # Catppuccin Mocha - Text (or a lighter variant like #F5E0DC - Rosewater if needed)
+    "red":     "#F38BA8", # Catppuccin Mocha - Red
+    "orange":  "#FAB387", # Catppuccin Mocha - Peach
+    "yellow":  "#F9E2AF", # Catppuccin Mocha - Yellow
+    "green":   "#A6E3A1", # Catppuccin Mocha - Green
+    "magenta": "#F5C2E7", # Catppuccin Mocha - Pink
+    "blue":    "#89B4FA", # Catppuccin Mocha - Blue
+    "cyan":    "#94E2D5", # Catppuccin Mocha - Teal
 }
 
 # =========================================================================== #
 # === VARIABLES GLOBALES ===
 # =========================================================================== #
 mod = "mod4"        # Tecla Mod principal (Super/Windows)
-terminal = "alacritty" # Tu terminal preferida
+terminal = "wezterm" # Tu terminal preferida
 
 # =========================================================================== #
 # === ATAJOS DE TECLADO (Keybindings) ===
@@ -102,10 +102,6 @@ keys = [
 
     # --- Lanzadores ---
     Key([mod], "Return", lazy.spawn(terminal), desc="Lanzar terminal"),
-    # Modificado para usar dmenu
-    # Modificado para usar dmenu
-    # Key([mod], "d", lazy.spawn("dmenu_run -i -l 10 -p 'Lanzar:' -nb '#2E3440' -nf '#D8DEE9' -sb '#88C0D0' -sf '#2E3440' -fn 'monospace:size=11'"), desc="Launch dmenu (vertical)"),
-    # Key([mod], "d", lazy.spawn("dmenu_run -i -l 10 -p 'Lanzar:' -nb '#2E3440' -nf '#D8DEE9' -sb '#88C0D0' -sf '#2E3440' -fn 'monospace:size=11' -b"), desc="Launch dmenu (vertical, bottom)"),
     Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Lanzar Rofi (modo drun)"),
     # Key([mod], "r", lazy.spawncmd(), desc="Lanzar prompt de Qtile (spawncmd)"), # Opcional: prompt básico en la barra
 
@@ -123,7 +119,7 @@ keys = [
 # =========================================================================== #
 # === GRUPOS / ESPACIOS DE TRABAJO (Workspaces) ===
 # =========================================================================== #
-groups = [Group(i) for i in "123456789"] # Nombres simples 1-9
+groups = [Group(i) for i in "1234"] # Nombres simples 1-9
 
 for i in groups:
     keys.extend(
@@ -136,15 +132,15 @@ for i in groups:
                 desc=f"Cambiar al grupo {i.name}",
             ),
             # Mod + Shift + número = Mover ventana activa al grupo (y cambiar a él)
-            Key(
-                [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc=f"Mover ventana al grupo {i.name} y cambiar a él",
-            ),
+            # Key(
+            #     [mod, "shift"],
+            #     i.name,
+            #     lazy.window.togroup(i.name, switch_group=True),
+            #     desc=f"Mover ventana al grupo {i.name} y cambiar a él",
+            # ),
             # Alternativa: Mod + Shift + número = Mover ventana activa al grupo (SIN cambiar a él)
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="Mover ventana al grupo {}".format(i.name)),
+            Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+                desc="Mover ventana al grupo {}".format(i.name)),
         ]
     )
 
@@ -153,10 +149,10 @@ for i in groups:
 # =========================================================================== #
 layouts = [
     layout.Columns(
-        border_focus=colors["blue"],    # Color del borde de la ventana activa
+        border_focus=colors["cyan"],    # Color del borde de la ventana activa
         border_normal=colors["gray"],   # Color del borde de las ventanas inactivas
         border_width=2,                 # Grosor del borde
-        margin=8,                       # Margen alrededor de las ventanas
+        margin=5,                       # Margen alrededor de las ventanas
         #border_focus_stack=["#d75f5f", "#8f3d3d"], # Colores alternativos si hay varias columnas
         #border_on_single=True          # Mostrar borde aunque solo haya una ventana
     ),
@@ -180,146 +176,47 @@ layouts = [
 # Establece valores comunes para todos los widgets, se pueden sobrescribir individualmente.
 # =========================================================================== #
 widget_defaults = dict(
-    font="JetBrainsMono Nerd Font", # Fuente principal para la barra (¡Asegúrate de tenerla!)
-    fontsize=14,                  # Tamaño de la fuente
-    padding=3,                    # Espaciado interno de los widgets
-    foreground=colors["fg"]       # Color de texto por defecto
+    font="sans",
+    fontsize=12,
+    padding=3,
 )
 extension_defaults = widget_defaults.copy()
-
 # =========================================================================== #
 # === PANTALLAS y BARRA(S) ===
 # Aquí se define qué barra y qué widgets aparecen en cada monitor.
 # =========================================================================== #
 screens = [
     Screen(
-        # --- Definición de la Barra ---
-        top=bar.Bar( # 'top' o 'bottom' para la posición
+        bottom=bar.Bar(
             [
-                # --- Lado Izquierdo ---
-                widget.Spacer(length=5),
-                widget.GroupBox(
-                    font="JetBrainsMono Nerd Font Bold", # Fuente específica para grupos
-                    fontsize=14,
-                    margin_y=3,                 # Margen vertical
-                    margin_x=0,                 # Margen horizontal
-                    padding_y=5,                # Relleno vertical
-                    padding_x=5,                # Relleno horizontal
-                    borderwidth=3,              # Grosor del borde
-                    active=colors["fg"],        # Color texto grupos activos
-                    inactive=colors["gray"],      # Color texto grupos inactivos
-                    rounded=False,              # Bordes redondeados (True/False)
-                    highlight_method="block",   # Método de resaltado: "block", "border", "text"
-                    # Colores de resaltado (dependen de highlight_method)
-                    this_current_screen_border=colors["blue"],    # Color para grupo actual en pantalla actual
-                    this_screen_border=colors["gray"],            # Color para otros grupos en pantalla actual
-                    other_current_screen_border=colors["bg"],     # Color si tienes multi-monitor
-                    other_screen_border=colors["bg"],             # Color si tienes multi-monitor
-                    foreground=colors["fg"],
-                    background=colors["bg"]
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        "launch": ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
                 ),
-                widget.Sep(linewidth=0, padding=10, foreground=colors["gray"]), # Separador
-                widget.CurrentLayoutIcon(scale=0.65), # Icono del layout actual
-                widget.CurrentLayout(foreground=colors["cyan"], padding = 5), # Nombre del layout actual
-                widget.Sep(linewidth=0, padding=10, foreground=colors["gray"]),
-                widget.WindowName(           # Nombre de la ventana activa
-                    foreground=colors["cyan"],
-                    format='{name}',
-                    max_chars=40,             # Limitar longitud
-                    empty_group_string="Escritorio" # Texto si no hay ventanas
-                ),
-
-                # --- Centro (widget separador que ocupa espacio) ---
-                widget.Spacer(), # Empuja los siguientes widgets a la derecha
-
-                # --- Lado Derecho (Widgets del Sistema) ---
-                widget.Systray(padding=5), # Bandeja del sistema
-                widget.Sep(linewidth=0, padding=10),
-
-                # Widget de Actualizaciones (ejemplo para Arch)
-                widget.CheckUpdates(
-                    distro="Arch",               # O "Arch_checkupdates" si tienes checkupdates instalado
-                    display_format=" {updates}", # Icono + número de actualizaciones (requiere Nerd Font)
-                    no_update_string=" 0",       # Texto si no hay actualizaciones
-                    colour_have_updates=colors["yellow"], # Color si hay actualizaciones
-                    colour_no_updates=colors["green"],   # Color si no hay actualizaciones
-                    update_interval=1800,         # Intervalo de chequeo (en segundos)
-                    execute="alacritty -e sudo pacman -Syu", # Comando al hacer click (opcional)
-                    padding=5
-                ),
-                widget.Sep(linewidth=0, padding=10),
-
-                # Icono y % de CPU
-                widget.TextBox(text="", foreground=colors["green"], fontsize=16, padding=0), # Icono
-                widget.CPU(
-                    format='{load_percent:.0f}%', # Formato: % de carga
-                    foreground=colors["green"],
-                    padding = 5
-                ),
-                widget.Sep(linewidth=0, padding=10),
-
-                # Icono y Memoria Usada
-                widget.TextBox(text="", foreground=colors["blue"], fontsize=16, padding=0), # Icono
-                widget.Memory(
-                    format='{MemUsed:.1f}{mm}', # Formato: Memoria usada con 1 decimal + unidad (G, M)
-                    foreground=colors["blue"],
-                    padding = 5,
-                    measure_mem='G'           # Medir en Gigabytes
-                ),
-                widget.Sep(linewidth=0, padding=10),
-
-                # Icono y Red (¡¡¡ CAMBIA 'wlan0' !!!)
-                widget.TextBox(text="", foreground=colors["orange"], fontsize=16, padding=0), # Icono
-                widget.Net(
-                    interface="wlan0",        # <<< ¡¡¡ CAMBIA ESTO POR TU INTERFAZ !!! (ej: eth0, enp2s0, wlp3s0)
-                    format='{down}↓↑{up}',    # Formato: Bajada / Subida
-                    foreground=colors["orange"],
-                    padding=5,
-                    use_bits=True             # Opcional: Mostrar en bits en vez de Bytes
-                ),
-                widget.Sep(linewidth=0, padding=10),
-
-                # Icono y Fecha
-                widget.TextBox(text="", foreground=colors["magenta"], fontsize=16, padding=0), # Icono
-                widget.Clock(
-                    format="%d/%m/%Y",        # Formato: DD/MM/YYYY
-                    foreground=colors["magenta"],
-                    padding = 5
-                ),
-                # Icono y Hora
-                widget.TextBox(text="", foreground=colors["magenta"], fontsize=16, padding=0), # Icono
-                widget.Clock(
-                    format="%H:%M",           # Formato: HH:MM (24h)
-                    foreground=colors["magenta"],
-                    padding = 5
-                ),
-
-                # Espacio final antes del borde
-                widget.Spacer(length=5),
-
-                # Opcional: Botón de Salir Rápido
-                # widget.QuickExit(
-                #    default_text='', # Icono de Power
-                #    foreground=colors["red"],
-                #    fontsize=16,
-                #    countdown_format='[{}]'
-                # ),
-                # widget.Spacer(length=5),
-
+                widget.TextBox("default config", name="default"),
+                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+                # widget.StatusNotifier(),
+                widget.Systray(),
+                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                widget.QuickExit(),
             ],
-            # --- Propiedades de la Barra ---
-            26,                     # Altura de la barra en píxeles
-            background=colors["bg"],# Color de fondo
-            opacity=0.95            # Opacidad (0.0 a 1.0, necesita 'picom' corriendo)
-            # border_width=[2, 0, 2, 0],  # Ancho de bordes: [Arriba, Derecha, Abajo, Izquierda]
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"] # Colores de los bordes
+            24,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
-        # --- Fondo de pantalla para esta pantalla (opcional, si no usas feh/nitrogen) ---
-        # wallpaper='~/Pictures/Wallpapers/ghibli.jpg',
-        # wallpaper_mode='fill', # 'fill' o 'stretch'
+        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
+        # By default we handle these events delayed to already improve performance, however your system might still be struggling
+        # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
+        # x11_drag_polling_rate = 60,
     ),
 ]
-
 # =========================================================================== #
 # === RATÓN (Mouse Bindings) ===
 # Comportamiento para ventanas flotantes principalmente.
